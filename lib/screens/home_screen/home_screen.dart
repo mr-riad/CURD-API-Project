@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../widgets/productCardWidgets.dart';
 import '../../widgets/text_field_button.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -25,38 +26,24 @@ class _HomeScreenState extends State<HomeScreen> {
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                TextFieldButton(
-                  buttonText: 'Enter Product Name',
-                ),
-                TextFieldButton(
-                  buttonText: 'Enter Product Img Urls',
-                ),
-                TextFieldButton(
-                  buttonText: 'Enter Product Quantity',
-                ),
-
-                TextFieldButton(
-                  buttonText: 'Enter Product Unit Price',
-                ),
-
-                TextFieldButton(
-                  buttonText: 'Enter Product Total Price',
-                ),
-
-                SizedBox(
-                  height: 5,
-                ),
-
+                TextFieldButton(buttonText: 'Enter Product Name'),
+                TextFieldButton(buttonText: 'Enter Product Img Urls'),
+                TextFieldButton(buttonText: 'Enter Product Quantity'),
+                TextFieldButton(buttonText: 'Enter Product Unit Price'),
+                TextFieldButton(buttonText: 'Enter Product Total Price'),
+                SizedBox(height: 5),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    TextButton(onPressed: () {
-                      Navigator.pop(context);
-                    }, child: Text("Cancel")),
-                    TextButton(onPressed: () {}, child: Text("Confrom"))
-
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text("Cancel"),
+                    ),
+                    TextButton(onPressed: () {}, child: Text("Confrom")),
                   ],
-                )
+                ),
               ],
             ),
           ),
@@ -74,13 +61,28 @@ class _HomeScreenState extends State<HomeScreen> {
         centerTitle: true,
         backgroundColor: Colors.blue,
       ),
+      body: GridView.builder(
+        itemCount: 10,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+        ),
+        itemBuilder: (context, index) {
+          return ProductCardWidgets(
+            onEdit: () {
+              productDialog();
+            },
+            onDelete: () {
+
+            },
+
+          );
+        },
+      ),
 
       floatingActionButton: FloatingActionButton(
         onPressed: () => productDialog(),
-
         child: Icon(Icons.add),
       ),
     );
   }
 }
-
