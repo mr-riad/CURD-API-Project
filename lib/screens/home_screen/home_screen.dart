@@ -1,3 +1,4 @@
+import 'package:curd_api_project/widgets/productController.dart';
 import 'package:flutter/material.dart';
 
 import '../../widgets/productCardWidgets.dart';
@@ -11,47 +12,60 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  void productDialog() {
-    TextEditingController productNameController = TextEditingController();
-    TextEditingController productQtyController = TextEditingController();
-    TextEditingController productImgController = TextEditingController();
-    TextEditingController productUnitPriceController = TextEditingController();
-    TextEditingController productTotalPriceController = TextEditingController();
+  final ProductController productController = ProductController();
 
-    showDialog(
-      context: context,
-      builder:
-          (context) => AlertDialog(
-            title: Text('Add product'),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextFieldButton(buttonText: 'Enter Product Name'),
-                TextFieldButton(buttonText: 'Enter Product Img Urls'),
-                TextFieldButton(buttonText: 'Enter Product Quantity'),
-                TextFieldButton(buttonText: 'Enter Product Unit Price'),
-                TextFieldButton(buttonText: 'Enter Product Total Price'),
-                SizedBox(height: 5),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text("Cancel"),
-                    ),
-                    TextButton(onPressed: () {}, child: Text("Confrom")),
-                  ],
-                ),
-              ],
-            ),
-          ),
-    );
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {
+      productController.fetchProduct();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    void productDialog() {
+      TextEditingController productNameController = TextEditingController();
+      TextEditingController productQtyController = TextEditingController();
+      TextEditingController productImgController = TextEditingController();
+      TextEditingController productUnitPriceController =
+          TextEditingController();
+      TextEditingController productTotalPriceController =
+          TextEditingController();
+
+      showDialog(
+        context: context,
+        builder:
+            (context) => AlertDialog(
+              title: Text('Add product'),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextFieldButton(buttonText: 'Enter Product Name'),
+                  TextFieldButton(buttonText: 'Enter Product Img Urls'),
+                  TextFieldButton(buttonText: 'Enter Product Quantity'),
+                  TextFieldButton(buttonText: 'Enter Product Unit Price'),
+                  TextFieldButton(buttonText: 'Enter Product Total Price'),
+                  SizedBox(height: 5),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text("Cancel"),
+                      ),
+                      TextButton(onPressed: () {}, child: Text("Confrom")),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -62,19 +76,40 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.blue,
       ),
       body: GridView.builder(
-        itemCount: 10,
+        itemCount: 5,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
+          mainAxisSpacing: 10,
+          crossAxisSpacing: 10,
         ),
         itemBuilder: (context, index) {
+          var product = productController.products[index];
           return ProductCardWidgets(
             onEdit: () {
               productDialog();
             },
             onDelete: () {
+              productController.DeleteProduct(product.sId.toString()).then((value)async{
+                if(value){
+                  await productController.fetchProduct();
+                  setState(() {
 
+                  });
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("Product Deleted"),
+                    duration: Duration(seconds: 2),)
+                  );
+                }
+                else{
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("Something wrong"),
+                        duration: Duration(seconds: 2),)
+                  );
+                }
+
+              });
             },
-
+            product: product,
           );
         },
       ),
