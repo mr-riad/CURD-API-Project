@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../widgets/text_field_button.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -12,8 +14,8 @@ class _HomeScreenState extends State<HomeScreen> {
     TextEditingController productNameController = TextEditingController();
     TextEditingController productQtyController = TextEditingController();
     TextEditingController productImgController = TextEditingController();
-    TextEditingController ProductUnitPriceController = TextEditingController();
-    TextEditingController ProductTotalPriceController = TextEditingController();
+    TextEditingController productUnitPriceController = TextEditingController();
+    TextEditingController productTotalPriceController = TextEditingController();
 
     showDialog(
       context: context,
@@ -23,11 +25,38 @@ class _HomeScreenState extends State<HomeScreen> {
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                TextField(
-                  decoration: InputDecoration(
-                    labelText: 'Enter the product name',
-                  ),
+                TextFieldButton(
+                  buttonText: 'Enter Product Name',
                 ),
+                TextFieldButton(
+                  buttonText: 'Enter Product Img Urls',
+                ),
+                TextFieldButton(
+                  buttonText: 'Enter Product Quantity',
+                ),
+
+                TextFieldButton(
+                  buttonText: 'Enter Product Unit Price',
+                ),
+
+                TextFieldButton(
+                  buttonText: 'Enter Product Total Price',
+                ),
+
+                SizedBox(
+                  height: 5,
+                ),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    TextButton(onPressed: () {
+                      Navigator.pop(context);
+                    }, child: Text("Cancel")),
+                    TextButton(onPressed: () {}, child: Text("Confrom"))
+
+                  ],
+                )
               ],
             ),
           ),
@@ -54,3 +83,4 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+

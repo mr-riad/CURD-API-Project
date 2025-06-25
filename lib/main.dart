@@ -1,4 +1,4 @@
-import 'package:curd_api_project/Screens/HomeScreen/home_screen.dart';
+import 'package:curd_api_project/screens/home_screen/home_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
