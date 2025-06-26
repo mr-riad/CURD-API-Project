@@ -37,9 +37,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
     productNameController.text = name ?? '';
     productImgController.text = img ?? '';
-    productQtyController.text = qty != null ? qty.toString() : '0';
-    productUnitPriceController.text = unitPrice != null ? unitPrice.toString() : '0';
-    productTotalPriceController.text = totalPrice != null ? totalPrice.toString() : '0';
+    productQtyController.text = qty?.toString() ?? '0';
+    productUnitPriceController.text = unitPrice?.toString() ?? '0';
+    productTotalPriceController.text = totalPrice?.toString() ?? '0';
 
     showDialog(
       context: context,
@@ -52,22 +52,27 @@ class _HomeScreenState extends State<HomeScreen> {
               TextFieldButton(
                 buttonText: 'Enter Product Name',
                 controller: productNameController,
+                labelText: 'Product Name',
               ),
               TextFieldButton(
                 buttonText: 'Enter Product Img URL',
                 controller: productImgController,
+                labelText: 'Product Image URL',
               ),
               TextFieldButton(
                 buttonText: 'Enter Product Quantity',
                 controller: productQtyController,
+                labelText: 'Quantity',
               ),
               TextFieldButton(
                 buttonText: 'Enter Product Unit Price',
                 controller: productUnitPriceController,
+                labelText: 'Unit Price',
               ),
               TextFieldButton(
                 buttonText: 'Enter Product Total Price',
                 controller: productTotalPriceController,
+                labelText: 'Total Price',
               ),
               const SizedBox(height: 10),
               Row(
@@ -106,9 +111,26 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  int calculateCrossAxisCount(double width) {
+    if (width < 400) return 1;
+    if (width < 600) return 2;
+    if (width < 900) return 3;
+    if (width < 1200) return 4;
+    return 5;
+  }
+
+  double calculateChildAspectRatio(double width) {
+    if (width < 400) return 0.75;
+    if (width < 600) return 0.7;
+    if (width < 900) return 0.75;
+    if (width < 1200) return 0.8;
+    return 0.9;
+  }
+
   @override
   Widget build(BuildContext context) {
     final products = productController.products;
+    final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
       appBar: AppBar(
@@ -125,11 +147,11 @@ class _HomeScreenState extends State<HomeScreen> {
         padding: const EdgeInsets.all(8.0),
         child: GridView.builder(
           itemCount: products.length,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: calculateCrossAxisCount(screenWidth),
             mainAxisSpacing: 10,
             crossAxisSpacing: 10,
-            childAspectRatio: 0.8,
+            childAspectRatio: calculateChildAspectRatio(screenWidth),
           ),
           itemBuilder: (context, index) {
             var product = products[index];

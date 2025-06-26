@@ -31,7 +31,7 @@ class ProductCardWidgets extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                   child: Image.network(
                     product.img ?? '',
-                    height: constraints.maxHeight * 0.6,
+                    height: constraints.maxHeight * 0.55,
                     width: double.infinity,
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) => Icon(Icons.broken_image, size: 100),
