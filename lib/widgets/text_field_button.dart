@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 
 class TextFieldButton extends StatelessWidget {
-
   final String buttonText;
+  final TextEditingController controller;
+
   const TextFieldButton({
-    super.key, required this.buttonText,
+    super.key,
+    required this.buttonText,
+    required this.controller,
   });
 
   @override
@@ -12,15 +15,16 @@ class TextFieldButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(5.0),
       child: TextField(
+        controller: controller,
         decoration: InputDecoration(
           hintText: buttonText,
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
-            borderSide: BorderSide(color: Colors.grey),
+            borderSide: const BorderSide(color: Colors.grey),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
-            borderSide: BorderSide(color: Colors.blue, width: 2),
+            borderSide: const BorderSide(color: Colors.blue, width: 2),
           ),
         ),
       ),
