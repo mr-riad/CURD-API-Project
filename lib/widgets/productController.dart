@@ -58,4 +58,35 @@ class ProductController {
       return false;
     }
   }
+
+  Future<void> updateProduct(
+      String id,
+      String name,
+      String img,
+      int qty,
+      int unitPrice,
+      int totalPrice,
+      ) async {
+    final response = await http.post(
+      Uri.parse(Urls.updateProduct(id)), // make sure this returns the correct update URL
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+        "ProductName": name,
+        "ProductCode": DateTime.now().microsecondsSinceEpoch,
+        "Img": img,
+        "Qty": qty,
+        "UnitPrice": unitPrice,
+        "TotalPrice": totalPrice,
+      }),
+    );
+
+    print("Update Status: ${response.statusCode}");
+
+    if (response.statusCode == 200) {
+      await fetchProduct();
+    } else {
+      throw Exception('Failed to update product');
+    }
+  }
+
 }
