@@ -112,7 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   int calculateCrossAxisCount(double width) {
-    if (width < 400) return 1;
+    if (width < 400) return 2;
     if (width < 600) return 2;
     if (width < 900) return 3;
     if (width < 1200) return 4;
@@ -120,7 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   double calculateChildAspectRatio(double width) {
-    if (width < 400) return 0.75;
+    if (width < 400) return 0.68;
     if (width < 600) return 0.7;
     if (width < 900) return 0.75;
     if (width < 1200) return 0.8;
