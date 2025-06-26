@@ -16,7 +16,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     setState(() {
       productController.fetchProduct();
@@ -57,7 +56,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                         child: Text("Cancel"),
                       ),
-                      TextButton(onPressed: () {}, child: Text("Confrom")),
+                      TextButton(onPressed: () {
+                        productController.createProduct(
+                            productNameController.text,
+                            productImgController.text,
+                            int.parse(productQtyController.text.trim()) ,
+                            int.parse(productUnitPriceController.text.trim()),
+                            int.parse(productTotalPriceController.text.trim()));
+                      }, child: Text("Confrom")),
                     ],
                   ),
                 ],

@@ -5,30 +5,56 @@ import 'package:http/http.dart' as http;
 
 import '../utils/urls.dart';
 
-class ProductController{
-  List<Data> products =[];
+class ProductController {
+  List<Data> products = [];
 
-  Future<void> fetchProduct()async{
+  Future<void> fetchProduct() async {
     final response = await http.get(Uri.parse(Urls.readProduct));
 
     print(response.statusCode);
 
-    if(response.statusCode == 200){
+    if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       productModel model = productModel.fromJson(data);
       products = model.data ?? [];
     }
   }
 
-  Future<bool> DeleteProduct(String productId)async{
+  Future<void> createProduct(
+    String productName,
+    String img,
+    int qty,
+    int UnitPrice,
+    int TotalPrice,
+  ) async {
+    final response = await http.post(
+      Uri.parse(Urls.createProduct),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+        "ProductName": productName,
+        "ProductCode": DateTime.now().microsecondsSinceEpoch,
+        "Img": img,
+        "Qty": qty,
+        "UnitPrice": UnitPrice,
+        "TotalPrice": TotalPrice,
+      }),
+    );
+
+    print(response.statusCode);
+
+    if (response.statusCode == 201) {
+      fetchProduct();
+    }
+  }
+
+  Future<bool> DeleteProduct(String productId) async {
     final response = await http.get(Uri.parse(Urls.deleteProduct(productId)));
 
     print(response.statusCode);
 
-    if(response.statusCode == 200){
+    if (response.statusCode == 200) {
       return true;
-    }
-    else{
+    } else {
       return false;
     }
   }
